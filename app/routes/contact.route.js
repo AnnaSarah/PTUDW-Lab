@@ -12,9 +12,19 @@ router.route("/")
 router.route("/favorite")
     .get(contacts.findAllFavorite);
 
+router.route("/family")
+    .get(contacts.findAllFamily);
+
+router.route("/login")
+    .post(contacts.login);
+
+// router.route("/register")
+//     .post(contacts.register);
+
 router.route("/:id")
     .get(contacts.findOne)
     .put(contacts.update)
-    .delete(contacts.delete)
+    .delete(contacts.delete);
+
 
 module.exports = router;

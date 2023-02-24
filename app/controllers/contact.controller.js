@@ -1,4 +1,5 @@
 const ContactService = require("../services/conntact.service");
+const AuthService = require("../services/auth.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
@@ -30,6 +31,19 @@ const ApiError = require("../api-error");
 // exports.findAllFavorite = (req,res) => {
 //     res.send({message: "findAllFavorite handler"});
 // };
+
+// exports.findFamily = (req,res) => {
+//     res.send({message: "findFamily handler"});
+// };
+
+// exports.login = (req, res) => {
+//     res.send({message: "Login handler!"})
+// } 
+
+// exports.register = (req, res) => {
+//     res.send({message: "Register handler!"})
+// } 
+
 
 //Lab2
 exports.create = async (req,res,next) => {
@@ -139,6 +153,21 @@ exports.findAllFavorite = async (req, res, next) => {
     };
 };
 
+exports.findAllFamily = async (req, res, next) => {
+    try {
+        const contactService = new ContactService(MongoDB.client);
+        const documents = await contactService.findFamily();
+        return res.send(documents);
+        
+    } catch (error) {
+        return next(
+            new ApiError(
+                500, "An error occurred while retrieving family contacts"
+            )
+        );
+    };
+};
+
 exports.deleteAll = async (req,res,next) => {
     try {
         const contactService = new ContactService(MongoDB.client);
@@ -154,3 +183,18 @@ exports.deleteAll = async (req,res,next) => {
         );
     }
 };
+
+exports.login = async (req, res, next) => {
+    try {
+        const auth1 = new AuthService(MongoDB.client); 
+        const user = await auth1.login(req.body);
+        return res.send({message: "Login successfully!"});
+        
+    } catch (error) {
+        return next(
+            new ApiError(
+                500, "An error occurred while login"
+            )
+        );
+    };
+} 

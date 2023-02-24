@@ -20,6 +20,8 @@ class ContactService {
         // );
         return contact;
     }
+    
+
     async create(payload) {
         const contact = this.extractConactData(payload);
         const result = await this.Contact.findOneAndUpdate(
@@ -58,6 +60,7 @@ class ContactService {
         );
         return result.value;
     }
+
       
     async delete(id) {
         const result = await this.Contact.findOneAndDelete({
@@ -68,6 +71,10 @@ class ContactService {
 
     async findFavorite() {
         return await this.find({ favorite: true });
+    }
+
+    async findFamily(){
+        return await this.find({ family: true });
     }
     
     async deleteAll() {
